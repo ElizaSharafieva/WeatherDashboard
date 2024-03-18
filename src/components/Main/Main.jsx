@@ -2,6 +2,7 @@ import styles from './styles.module.scss';
 import CurrentWeather from '../CurrentWeather/CurrentWeather';
 import Location from '../Location/Location';
 import DaysForecast from '../DaysForecast/DaysForecast';
+import HourlyForecast from '../HourlyForecast/HourlyForecast';
 
 function Main() {
   return (
@@ -10,6 +11,7 @@ function Main() {
         <Location />
         <CurrentWeather />
         <DaysForecast />
+        <HourlyForecast />
       </div>
     </main>
   );
