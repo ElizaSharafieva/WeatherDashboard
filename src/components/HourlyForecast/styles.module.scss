@@ -1,0 +1,47 @@
+.hourlyForecast {
+  display: flex;
+  flex-direction: column;
+  padding: 13px 4% 16px;
+  @extend %border-style;
+
+    &__title {
+      @extend %title;
+    }
+
+    &__list {
+      margin-top: 19px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    &__item {
+      padding: 13px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border-radius: 40px;
+      border: 1px solid #FFF;
+      background: linear-gradient(171deg, #F88508 -12.41%, rgba(246, 250, 217, 0.00) 163.32%);
+      box-shadow: -5px -5px 250px 0px rgba(255, 255, 255, 0.02) inset;
+      backdrop-filter: blur(21px);
+      font-family: 'Poppins', 'Arial', sans-serif;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
+    }
+
+    &__image {
+      max-width: 80px;
+      // transform: rotate(45deg);
+    }
+
+    &__time {
+      font-size: 24px;
+    }
+
+    &__data{
+      margin-bottom: 10px;
+    }
+}

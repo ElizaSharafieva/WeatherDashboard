@@ -1,0 +1,15 @@
+.themeLight {
+  --text-color: #292929; 
+  --label-color: #000;
+  --background-color: #D9D9D9;
+  --card-background-color: #F88508;  
+  --background: linear-gradient(110deg, var(--background-color) 10%, var( --text-color) 125%);
+}
+
+.themeDark {
+  --text-color: #FFFFFF; 
+  --label-color: #FFF;
+  --background-color: #444444;
+  --card-background-color: #282626; 
+  --background: linear-gradient(110deg, var(--background-color) 0%, var(--card-background-color) 71.82%);
+}

@@ -1,0 +1,116 @@
+.currentWeather {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding: 27px 24px;
+  @extend %border-style;
+
+  &__imageContainer {
+    pointer-events: none;
+    background: url(../../images/sunny.svg) center no-repeat;
+    background-size: 100%;
+  }
+
+
+  &__image {
+    border-radius: 94px;
+    filter: blur(38.5px);
+    display: block;
+    width: 200px;
+  }
+
+  &__title {
+    @extend %title;
+  }
+}
+
+.temperatureContainer {
+  &__currentTemperature {
+    background: linear-gradient(84deg, var( --text-color) -16.56%, rgba(255, 255, 255, 0) 400%);
+    background-clip:text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: 'Poppins', 'Arial', sans-serif;
+    font-size: clamp(0.9375rem, 0.2452rem + 3.6923vw, 3.9375rem);
+    font-style: normal;
+    font-weight: 700;
+    line-height: 77px;
+    text-align: end;
+  }
+
+  &__feelzTemperature {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Poppins', 'Arial', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+  }
+
+  &__accent {
+    font-family: 'Poppins', 'Arial', sans-serif;
+    font-size: clamp(0.9375rem, 0.7212rem + 1.1538vw, 1.875rem);
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+}
+
+.twilightContainer {
+  display: grid;
+  grid-template-columns: minmax(auto, 50px) minmax(auto, 92px);
+  grid-template-rows: auto;
+  gap: 13px 20px;
+  justify-content: center;
+  margin-top: 26px;
+
+    &__title{
+      font-family: 'Poppins', 'Arial', sans-serif;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
+    }
+
+    &__time{
+      font-family: 'Poppins', 'Arial', sans-serif;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+    }
+}
+
+.indicatorsContainer {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(auto, 113px));
+  grid-template-rows: auto;
+  gap: 20px 13px;
+  padding: 0;
+
+    &__item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    &__data {
+      text-align: center;
+      font-family: Poppins;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+    }
+
+    &__title {
+      margin-top: 12px;
+      font-family: 'Poppins', 'Arial', sans-serif;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+    }
+}
