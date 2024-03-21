@@ -1,6 +1,6 @@
 import '../../styles/index.scss';
 import { useSelector } from 'react-redux';
-import { useRoute } from '@react-navigation/native';
+// import { useRoute } from '@react-navigation/native';
 
 import styles from './styles.module.scss';
 import Header from '../Header/Header';
@@ -12,15 +12,15 @@ function App() {
 
 
 
-const route = useRoute();
-console.log(route.name);
+// const route = useRoute();
+// console.log(route.name);
 
-  navigator.geolocation.getCurrentPosition(position => {
-    const { latitude, longitude } = position.coords
-    console.log(position)
-  })
+//   navigator.geolocation.getCurrentPosition(position => {
+//     const { latitude, longitude } = position.coords
+//     console.log(position)
+//   })
 
-  console.log(navigator)
+//   console.log(navigator)
 
   return (
     <div className={`${styles.app} theme${theme}`}>
