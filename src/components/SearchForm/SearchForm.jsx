@@ -1,23 +1,25 @@
-import { useState, useEffect, useRef, createRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 
-import useKeyPress from '../../hooks/useKeyPress';
 import api from '../../utils/api';
 import styles from './styles.module.scss';
+import { setCurrentCity } from '../../store/cityReducer';
 
 function SearchForm() {
   
   const [value, setValue] = useState('');
   const [cities, setСities] = useState([]);
+  const searchBox = useRef();
   const controllerRef = useRef();
   const [cursor, setCursor] = useState(0);
-  const downPress = useKeyPress("ArrowDown");
-  const upPress = useKeyPress("ArrowUp");
-  const enterPress = useKeyPress("Enter");
-  const [selected, setSelected] = useState('');
+
+  const dispatch = useDispatch();
 
   function handleChangeValue(evt) {
     setValue(evt.target.value);
   };
+
+  console.log('main render')
 
   useEffect(() => {
     if (value) {
@@ -25,28 +27,27 @@ function SearchForm() {
     }
   }, [value])
 
-  useEffect(() => {
-    if (cursor < cities.length - 1 &&  downPress) {
+  const onKeyDown = (e) => {
+    if (cities.length > 0)
+    if (e.key === 'ArrowDown') {
       setCursor(prevState =>
         prevState < cities.length - 1 ? prevState + 1 : prevState
       );
-    }
-  }, [downPress && cities.length > 0]);
-
-
-  useEffect(() => {
-    if (cursor > 0 && upPress) {
+    } else if (e.key === 'ArrowUp') {
       setCursor(
         prevState => prevState > 0 ? prevState - 1 : prevState
       );
+    } else if (e.key === 'Enter') {
+      handleAddCity();
     }
-  }, [upPress && cities.length > 0]);
+  }
 
-  useEffect(() => {
-    if (enterPress) {
-      setSelected(cities[cursor]);
-    }
-  }, [cursor, enterPress && cities.length > 0]);
+  function handleAddCity() {
+    console.log('djdjdj')
+    dispatch(setCurrentCity(cities[cursor]));
+    setValue('');
+    setСities([]);
+  }
 
   const searchCities = async function(city) {
     if (controllerRef.current) {
@@ -80,6 +81,8 @@ function SearchForm() {
           name="search-input"
           onChange={handleChangeValue}
           value={value}
+          ref = {searchBox}
+          onKeyDown={onKeyDown}
         >
         </input>
       </div>
@@ -91,6 +94,7 @@ function SearchForm() {
                 <li key={city.id}
                   className={`${styles.searchForm__item} ${cursor === i ? styles.active : null}`} 
                   onMouseOver={() => setCursor(i)}
+                  onClick={handleAddCity}
                 >
                   <div className={styles.searchForm__data}>{city.name},</div>
                   <div className={styles.searchForm__data}>{city.admin1}</div>

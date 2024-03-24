@@ -10,16 +10,20 @@ import {
   REGISTER,
 } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
+
 import themeReducer from './themeReducer';
+import cityReducer from "./cityReducer";
 
 const persistConfig = {
   key: 'root',
   storage,
  }
 
-const rootReducer = combineReducers({
-  theme: themeReducer,
-}
+const rootReducer = combineReducers(
+  {
+    theme: themeReducer,
+    city: cityReducer,
+  }
 )
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
