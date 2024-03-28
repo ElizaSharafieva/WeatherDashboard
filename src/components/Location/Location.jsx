@@ -8,9 +8,8 @@ function Location() {
 
   const dispatch = useDispatch();
   const cityName = useSelector(state => state.city.cityName);
+  const time = useSelector(state => state.date.time);
   const timeZone = useSelector(state => state.city.timeZone);
-
-  console.log(timeZone)
 
   useEffect(() => {
     const time = setInterval(() => {
@@ -20,7 +19,7 @@ function Location() {
     return () => {
       clearInterval(time)
     }
-  }, [dispatch])
+  }, [dispatch, time])
 
   let dayOptions = {
     weekday: "long",
@@ -36,14 +35,15 @@ function Location() {
 
   const formattedDay = new Intl.DateTimeFormat("en-US", dayOptions).format();
   const formattedTime = new Intl.DateTimeFormat("ru", timeOptions).formatToParts();
+  const hour = formattedTime[0].value;
 
   useEffect(() => {
     dispatch(setDay(formattedDay))
   }, [formattedDay, dispatch])
 
   useEffect(() => {
-    dispatch(setHour(formattedTime[0].value))
-  }, [formattedTime[0].value])
+    dispatch(setHour(hour))
+  }, [hour, dispatch])
 
   return (
     <div className={styles.location}>

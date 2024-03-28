@@ -13,16 +13,20 @@ import storage from 'redux-persist/lib/storage'
 
 import themeReducer from './themeReducer';
 import cityReducer from "./cityReducer";
+import dateReducer from "./dateReducer";
+import weatherReducer from "./weatherReducer";
 
 const persistConfig = {
   key: 'root',
   storage,
- }
+}
 
 const rootReducer = combineReducers(
   {
     theme: themeReducer,
     city: cityReducer,
+    date: dateReducer,
+    weather: weatherReducer
   }
 )
 

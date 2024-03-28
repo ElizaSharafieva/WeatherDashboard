@@ -1,4 +1,4 @@
-async function api(endpoint, signal, { body }) {  
+async function api(endpoint,{ body }, signal) {  
 
   const headers = { 'Content-Type': 'application/json' }
 
@@ -33,8 +33,8 @@ api.get = function (endpoint) {
   return api(endpoint)
 }
 
-api.post = function (endpoint, signal, body) {
-  return api(endpoint, signal, {body})
+api.post = function (endpoint, body, signal) {
+  return api(endpoint, {body}, signal)
 }
 
 export default api;

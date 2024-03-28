@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import api from '../../utils/api';
 import styles from './styles.module.scss';
 import { setCurrentCity } from '../../store/cityReducer';
+import { fetchGeocoder } from '../../store/cityReducer';
+import { fetchCurrentWeather } from '../../store/weatherReducer';
 
 function SearchForm() {
   
@@ -14,6 +16,9 @@ function SearchForm() {
   const [cursor, setCursor] = useState(0);
 
   const dispatch = useDispatch();
+  const cityName = useSelector(state => state.city.cityName);
+
+  // console.log(cityName)
 
   function handleChangeValue(evt) {
     setValue(evt.target.value);
@@ -23,9 +28,15 @@ function SearchForm() {
 
   useEffect(() => {
     if (value) {
-      searchCities(value)
+      searchCities(value, 5)
+      .then(cities => cities ? setСities(cities) : setСities([]))
     }
   }, [value])
+
+  // useEffect(() => {
+  //   getCurrentPosition()
+  // }, [])
+
 
   const onKeyDown = (e) => {
     if (cities.length > 0)
@@ -43,13 +54,12 @@ function SearchForm() {
   }
 
   function handleAddCity() {
-    console.log('djdjdj')
-    dispatch(setCurrentCity(cities[cursor]));
+    dispatch(setCurrentCity(cities[cursor]))
     setValue('');
     setСities([]);
   }
 
-  const searchCities = async function(city) {
+  const searchCities = async function(city, count) {
     if (controllerRef.current) {
       controllerRef.current.abort();
     }
@@ -57,14 +67,26 @@ function SearchForm() {
     const signal = controllerRef.current.signal;
 
     try {
-      const response = await api.post(`http://localhost:3000/search?name=${city}`, signal)
+      const response = await api.post(`http://localhost:3000/search?name=${city}&count=${count}`, {city, count}, signal)
       const cities = await response.results;
-      cities ? setСities(response.results) : setСities([])
+      return cities
     } catch(err) {
       console.log(err);
     }
   }
 
+  function getCurrentPosition() {
+    navigator.geolocation.getCurrentPosition(position => {
+      const coordinates = position.coords;
+      if(coordinates) {
+        dispatch(fetchGeocoder({coordinates}))
+        .then(res => searchCities(res.payload, 1))
+        .then(city => city ? setСities(cities) : setСities([]))
+        .catch(err => console.log(err))
+      }
+    });
+  }
+  
   return (
     <form className={styles.searchForm} onSubmit={evt => evt.preventDefault()}>
       <div className={styles.searchForm__container}>
