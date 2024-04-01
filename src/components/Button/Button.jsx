@@ -2,11 +2,12 @@ import styles from './styles.module.scss';
 import locationIcon from '../../images/locationIcon.png';
 
 
-function Button() {
+function Button(props) {
   return (
     <button 
       className={styles.button} 
       type='submit'
+      onClick={props.getCurrentPosition}
     >
       <img src={locationIcon} alt="иконка местоположения" />
       Current Location

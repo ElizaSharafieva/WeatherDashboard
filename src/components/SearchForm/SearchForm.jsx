@@ -7,7 +7,7 @@ import { setCurrentCity } from '../../store/cityReducer';
 import { fetchGeocoder } from '../../store/cityReducer';
 import { fetchCurrentWeather } from '../../store/weatherReducer';
 
-function SearchForm() {
+function SearchForm(props) {
   
   const [value, setValue] = useState('');
   const [cities, setСities] = useState([]);
@@ -18,25 +18,21 @@ function SearchForm() {
   const dispatch = useDispatch();
   const cityName = useSelector(state => state.city.cityName);
 
-  // console.log(cityName)
-
   function handleChangeValue(evt) {
     setValue(evt.target.value);
   };
 
-  console.log('main render')
-
   useEffect(() => {
     if (value) {
-      searchCities(value, 5)
+      props.searchCities(value, 5)
       .then(cities => cities ? setСities(cities) : setСities([]))
     }
   }, [value])
 
-  // useEffect(() => {
-  //   getCurrentPosition()
-  // }, [])
-
+  useEffect(() => {
+    if (!cityName || cityName === 'Москва') 
+    props.getCurrentPosition()
+  }, [])
 
   const onKeyDown = (e) => {
     if (cities.length > 0)
@@ -54,39 +50,12 @@ function SearchForm() {
   }
 
   function handleAddCity() {
+    console.log(cities[cursor])
     dispatch(setCurrentCity(cities[cursor]))
     setValue('');
     setСities([]);
   }
 
-  const searchCities = async function(city, count) {
-    if (controllerRef.current) {
-      controllerRef.current.abort();
-    }
-    controllerRef.current = new AbortController();
-    const signal = controllerRef.current.signal;
-
-    try {
-      const response = await api.post(`http://localhost:3000/search?name=${city}&count=${count}`, {city, count}, signal)
-      const cities = await response.results;
-      return cities
-    } catch(err) {
-      console.log(err);
-    }
-  }
-
-  function getCurrentPosition() {
-    navigator.geolocation.getCurrentPosition(position => {
-      const coordinates = position.coords;
-      if(coordinates) {
-        dispatch(fetchGeocoder({coordinates}))
-        .then(res => searchCities(res.payload, 1))
-        .then(city => city ? setСities(cities) : setСities([]))
-        .catch(err => console.log(err))
-      }
-    });
-  }
-  
   return (
     <form className={styles.searchForm} onSubmit={evt => evt.preventDefault()}>
       <div className={styles.searchForm__container}>

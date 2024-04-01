@@ -9,7 +9,7 @@ app.use(cors({ origin: 'http://localhost:3001', credentials: true }));
 app.use(`/`, (req ,res) => {
   axios.get(`https://geocoding-api.open-meteo.com/v1/search?`, {
     params: {
-      name: req.body.city,
+      name: `${req.body.city}`,
       count: req.body.count,
       language: 'ru',
       format: 'json',

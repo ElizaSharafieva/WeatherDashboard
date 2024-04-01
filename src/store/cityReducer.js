@@ -1,13 +1,15 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
+import api from "../utils/api";
+
 const cityReducer = createSlice(
   {
     name: 'city',
     initialState: {
-      cityName: localStorage.getItem('cityName') || 'Уфа',
-      latitude: 0,
-      longitude: 0,
-      timeZone: localStorage.getItem('timeZone') || 'Asia/Yekaterinburg',
+      cityName: localStorage.getItem('cityName') || 'Москва',
+      latitude: localStorage.getItem('latitude') || 55.75222,
+      longitude: localStorage.getItem('longitude') || 37.61556,
+      timeZone: localStorage.getItem('timeZone') || 'Europe/Moscow',
     },
     reducers: {
       setCurrentCity: (state, action) => 
@@ -18,7 +20,6 @@ const cityReducer = createSlice(
           state.latitude = latitude;
           state.longitude = longitude;
           state.timeZone = timezone;
-          console.log(latitude, longitude)
         }
       },
     },
@@ -31,7 +32,6 @@ const cityReducer = createSlice(
           state.status = 'succeeded'
           if (action.payload) {
             state.cityName = action.payload;
-            // console.log(Intl.DateTimeFormat().resolvedOptions().timeZone)
           }
         })
         .addCase(fetchGeocoder.rejected, (state, action) => {
@@ -44,10 +44,9 @@ const cityReducer = createSlice(
 
 export const fetchGeocoder = createAsyncThunk('city/fetchGeocoder', async( {coordinates} ) => {
   const {latitude, longitude} = coordinates;
-  console.log(latitude, longitude)
   try {
-    // const response = await api.post(`https://geocode-maps.yandex.ru/1.x/?apikey=58044af2-ad47-4114-8415-36ced869c50b&geocode=${longitude},${latitude}&format=json&kind=locality&results=1`)
-    // return response.response.GeoObjectCollection.featureMember[0].GeoObject.name;
+    const response = await api.post(`https://geocode-maps.yandex.ru/1.x/?apikey=58044af2-ad47-4114-8415-36ced869c50b&geocode=${longitude},${latitude}&format=json&kind=locality&results=1`)
+    return response.response.GeoObjectCollection.featureMember[0].GeoObject.name;
   } catch(err) {
     console.log(err);
   }

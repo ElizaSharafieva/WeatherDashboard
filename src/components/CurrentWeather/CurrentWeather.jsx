@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 
 import styles from './styles.module.scss';
 import SVGWrappepr from '../SvgComponents/SVGWrapper';
-import { fetchCurrentWeather } from '../../store/weatherReducer';
 
 import sunny from '../../images/sunny.svg';
 import {ReactComponent as Humidity} from '../../images/humidity.svg';
@@ -15,9 +14,6 @@ import {ReactComponent as Sunset} from '../../images/sunset.svg';
 
 function CurrentWeather() {
 
-  const dispatch = useDispatch();
-  const latitude = useSelector(state => state.city.latitude);
-  const longitude = useSelector(state => state.city.longitude);
   const temperature = useSelector(state => state.weather.currentWeather.temperature_2m);
   const apparent_temperature = useSelector(state => state.weather.currentWeather.apparent_temperature);
   const wind = useSelector(state => state.weather.currentWeather.wind_speed_10m);
@@ -30,12 +26,7 @@ function CurrentWeather() {
   const sunriseTime = sunrise.split('T').pop();
   const sunsetTime = sunset.split('T').pop();
 
-
   const background = sunny;
-
-  useEffect(() => {
-    dispatch(fetchCurrentWeather({latitude, longitude}))
-  }, [latitude, longitude])
 
   return (
     <div className={styles.currentWeather}>
