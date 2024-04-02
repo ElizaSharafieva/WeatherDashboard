@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "allowUnreachableCode": false,
+    "skipLibCheck": true
+  }
+}
