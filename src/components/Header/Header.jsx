@@ -1,10 +1,11 @@
 import SearchForm from '../SearchForm/SearchForm';
 import Button from '../Button/Button';
+import AttentionPopup from '../AttentionPopup/AttentionPopup';
 import ThemeCheckbox from '../ThemeCheckbox/ThemeCheckbox';
 import styles from './styles.module.scss';
 
-import { useState, useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import { setCurrentCity } from '../../store/cityReducer';
 import { fetchGeocoder } from '../../store/cityReducer';
 import api from '../../utils/api';
@@ -12,6 +13,11 @@ import api from '../../utils/api';
 function Header() {
   const dispatch = useDispatch();
   const controllerRef = useRef();
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  function closePopup() {
+    setIsPopupOpen(false)
+  }
 
   const searchCities = async function(city, count) {
     if (controllerRef.current) {
@@ -30,16 +36,7 @@ function Header() {
   }
 
   function getCurrentPosition() {
-    
-    // navigator.geolocation.getCurrentPosition((position => {
-    //   const coordinates = position.coords;
-    //   if(coordinates) {
-    //     dispatch(fetchGeocoder({coordinates}))
-    //     .then(res => searchCities(res.payload, 1))
-    //     .then(res => dispatch(setCurrentCity(res[0])))
-    //     .catch(err => console.log(err))
-    //   }
-    // }), err =>  console.log(err))
+
     navigator.geolocation.getCurrentPosition(updatePosition, errorPosition)
     
     function updatePosition(position) {
@@ -51,8 +48,9 @@ function Header() {
         .catch(err => console.log(err))
       }
     }
+
     function errorPosition() {
-      console.log('error')
+      setIsPopupOpen(true)
     }
   }
 
@@ -65,6 +63,10 @@ function Header() {
       />
       <Button 
         getCurrentPosition={getCurrentPosition}
+      />
+      <AttentionPopup 
+        isOpen={isPopupOpen}
+        onClose={closePopup}
       />
     </header>
   );

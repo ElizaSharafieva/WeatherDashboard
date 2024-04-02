@@ -1,10 +1,15 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
 
 import styles from './styles.module.scss';
 import SVGWrappepr from '../SvgComponents/SVGWrapper';
 
 import sunny from '../../images/sunny.svg';
+import night from '../../images/moon.png';
+import rainy from '../../images/rainy.png';
+import cloudy from '../../images/cloudy.png';
+import snowy from '../../images/snowy.png'
+
 import {ReactComponent as Humidity} from '../../images/humidity.svg';
 import {ReactComponent as Wind} from '../../images/wind.svg';
 import {ReactComponent as Pressure} from '../../images/pressure.svg';
@@ -19,14 +24,32 @@ function CurrentWeather() {
   const wind = useSelector(state => state.weather.currentWeather.wind_speed_10m);
   const humidity = useSelector(state => state.weather.currentWeather.relative_humidity_2m);
   const pressure = useSelector(state => state.weather.currentWeather.pressure_msl);
+  const uv = useSelector(state => state.weather.uv);
   const isDay = useSelector(state => state.weather.currentWeather.is_day);
   const sunrise = useSelector(state => state.weather.sunrise);
   const sunset = useSelector(state => state.weather.sunset);
+  const cloudCover = useSelector(state => state.weather.currentWeather.cloud_cover);
+  const rain = useSelector(state => state.weather.currentWeather.rain);
+  const snowfall = useSelector(state => state.weather.currentWeather.snowfall);
+
+  const [background, setBackground] = useState(sunny);
+  const [title, setTitle] = useState('Sunny');
 
   const sunriseTime = sunrise.split('T').pop();
   const sunsetTime = sunset.split('T').pop();
 
-  const background = sunny;
+  const css = {
+    backgroundImage: `url(${background})`,
+  };
+
+  useEffect(() => {
+    if (isDay) {
+      if (snowfall > 0) {setBackground(snowy); setTitle('Snowy')}
+      else if (rain > 0) {setBackground(rainy); setTitle('Rainy')}
+      else if (cloudCover > 40) {setBackground(cloudy); setTitle('Cloudy')}
+      else {setBackground(sunny); setTitle('Sunny')}
+    } else {setBackground(night); setTitle('Nighttime')}
+  }, [cloudCover, isDay, rain, snowfall])
 
   return (
     <div className={styles.currentWeather}>
@@ -51,12 +74,12 @@ function CurrentWeather() {
         </div>
       </div>
       <div>
-        <div className={styles.currentWeather__imageContainer}>
+        <div className={styles.currentWeather__imageContainer} style={css}>
           <img className={styles.currentWeather__image} 
             src={background} 
             alt='иконка состояния текущей погоды'/>
         </div>
-        <h3 className={styles.currentWeather__title}>Sunny</h3>
+        <h3 className={styles.currentWeather__title}>{title}</h3>
       </div>
       <ul className={styles.indicatorsContainer}>
         <li className={styles.indicatorsContainer__item}>
@@ -84,8 +107,8 @@ function CurrentWeather() {
           <SVGWrappepr>
             <UV />
           </SVGWrappepr>
-          <p className={styles.indicatorsContainer__data}>8</p>
-          <p className={styles.indicatorsContainer__title}>UV</p>
+          <p className={styles.indicatorsContainer__data}>{Math.round(uv)}</p>
+          <p className={styles.indicatorsContainer__title}>max UV</p>
         </li>
       </ul>
     </div>

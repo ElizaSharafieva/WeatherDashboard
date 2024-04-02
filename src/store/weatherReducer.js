@@ -10,6 +10,7 @@ const weatherReducer = createSlice(
       hourlyWeather: {},
       sunrise: '',
       sunset: '',
+      uv: '',
       status: 'loading',
     },
     reducers: {},
@@ -23,6 +24,7 @@ const weatherReducer = createSlice(
             state.currentWeather = action.payload.currentWeather;
             state.sunrise = action.payload.sunrise;
             state.sunset = action.payload.sunset;
+            state.uv = action.payload.uv;
             state.status = 'succeeded'
         })
         .addCase(fetchCurrentWeather.rejected, (state, action) => {
@@ -63,14 +65,13 @@ export const fetchCurrentWeather = createAsyncThunk('weather/fetchCurrentWeather
       params: {
         latitude: latitude,
         longitude: longitude,
-        current: 'temperature_2m,is_day,precipitation,rain,snowfall,cloud_cover,relative_humidity_2m,apparent_temperature,pressure_msl,surface_pressure,wind_speed_10m',
-        daily: 'sunrise,sunset',
+        current: 'temperature_2m,is_day,rain,snowfall,cloud_cover,relative_humidity_2m,apparent_temperature,pressure_msl,surface_pressure,wind_speed_10m',
+        daily: 'sunrise,sunset,uv_index_max',
         wind_speed_unit: 'ms',
         timezone: 'auto',
       }
     });
-    // console.log(response)
-    return {currentWeather: response.data.current, sunrise: response.data.daily.sunrise.shift(), sunset: response.data.daily.sunset.shift()};
+    return {currentWeather: response.data.current, sunrise: response.data.daily.sunrise.shift(), sunset: response.data.daily.sunset.shift(), uv: response.data.daily.uv_index_max.shift()};
   } catch(err) {
     console.log(err);
   }
@@ -83,7 +84,7 @@ export const fetchDaysWeather = createAsyncThunk('weather/fetchDaysWeather', asy
         latitude: latitude,
         longitude: longitude,
         timezone: timeZone,
-        daily: 'temperature_2m_max,temperature_2m_min',
+        daily: 'temperature_2m_max,temperature_2m_min,rain_sum,snowfall_sum',
       }
     })
     return {daysWeather: response.data.daily};
@@ -99,7 +100,7 @@ export const fetchHourlyWeather = createAsyncThunk('weather/fetchHourlyWeather',
         latitude: latitude,
         longitude: longitude,
         timezone: timeZone,
-        hourly: 'temperature_2m,precipitation_probability,rain,snowfall,cloud_cover_high,wind_speed_10m,wind_direction_10m',
+        hourly: 'temperature_2m,rain,snowfall,cloud_cover_high,wind_speed_10m,wind_direction_10m',
         wind_speed_unit: 'ms',
         forecast_days: '2',
       }

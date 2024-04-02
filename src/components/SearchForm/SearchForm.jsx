@@ -1,19 +1,16 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import api from '../../utils/api';
 import styles from './styles.module.scss';
 import { setCurrentCity } from '../../store/cityReducer';
-import { fetchGeocoder } from '../../store/cityReducer';
-import { fetchCurrentWeather } from '../../store/weatherReducer';
 
 function SearchForm(props) {
   
   const [value, setValue] = useState('');
   const [cities, setСities] = useState([]);
   const searchBox = useRef();
-  const controllerRef = useRef();
   const [cursor, setCursor] = useState(0);
+  const [placeholder, setPlaceholder] =  useState('Search for your preffered city...');
 
   const dispatch = useDispatch();
   const cityName = useSelector(state => state.city.cityName);
@@ -27,12 +24,12 @@ function SearchForm(props) {
       props.searchCities(value, 5)
       .then(cities => cities ? setСities(cities) : setСities([]))
     }
-  }, [value])
+  }, [value, props])
 
   useEffect(() => {
     if (!cityName || cityName === 'Москва') 
     props.getCurrentPosition()
-  }, [])
+  })
 
   const onKeyDown = (e) => {
     if (cities.length > 0)
@@ -56,18 +53,26 @@ function SearchForm(props) {
     setСities([]);
   }
 
+  function handleSearchCity() {
+    if (value)
+      props.searchCities(value, 5)
+        .then (res => {if (!res) setValue('')})
+        .then (setPlaceholder('Город не найден'))
+  }
+
   return (
     <form className={styles.searchForm} onSubmit={evt => evt.preventDefault()}>
       <div className={styles.searchForm__container}>
         <button 
           className={styles.searchForm__button} 
           type='submit'
+          onClick={handleSearchCity}
         >
         </button>
         <input
           className={styles.searchForm__input}
           type='text' 
-          placeholder='Search for your preffered city...' 
+          placeholder={placeholder}
           id="search-input"
           name="search-input"
           onChange={handleChangeValue}
@@ -83,7 +88,7 @@ function SearchForm(props) {
             cities.map((city,i) => {
               return (
                 <li key={city.id}
-                  className={`${styles.searchForm__item} ${cursor === i ? styles.active : null}`} 
+                  className={`${styles.searchForm__item} ${cursor === i ? styles.active : ''}`} 
                   onMouseOver={() => setCursor(i)}
                   onClick={handleAddCity}
                 >
