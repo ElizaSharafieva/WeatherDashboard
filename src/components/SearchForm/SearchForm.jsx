@@ -29,7 +29,7 @@ function SearchForm(props) {
   useEffect(() => {
     if (!cityName || cityName === 'Москва') 
     props.getCurrentPosition()
-  })
+  }, [])
 
   const onKeyDown = (e) => {
     if (cities.length > 0)
