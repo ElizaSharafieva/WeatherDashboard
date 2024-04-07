@@ -10,5 +10,10 @@
       background-color: transparent;
       box-shadow: rgba(36, 39, 40, 0.12) 0px 2px 4px 0px, rgba(15, 16, 17, 0.32) 0px 2px 16px 0px;
       border-radius: 30px;
+
+      
+    @media screen and (max-width: 550px) {
+      padding: 63px 30px;
+    }
     }
 }
