@@ -6,6 +6,10 @@
   width: 102px;
   height: 40px;
   border-radius: 34px;
+
+  @media screen and (max-width: 590px) {
+    width: 70px;
+  }
   
   &:focus-within {
     @extend %focus;
@@ -69,8 +73,10 @@ input:checked + .slider {
 input:checked + .slider:before {
   background-color: #FFF;
   transform: translateX(60px);
-  transform: translateX(60px);
-  transform: translateX(60px);
+
+  @media screen and (max-width: 590px) {
+    transform: translateX(30px);
+  }
 }
 
 .checkboxContainer {

@@ -79,7 +79,6 @@
       border-radius: 20px;
       width: 100%;
       opacity: 0.8;
-      // padding-left: 102px;
       @extend %focus;
     }
 
@@ -87,23 +86,11 @@
       padding-left: 102px;
       color: var(--text-color);
       width: 100%;
+
+      @media screen and (max-width: 800px) {
+        padding-left: 0;
+      }
     }
-
-    // &__item:hover {
-    //   cursor: pointer;
-    //   color: var(--button-color);
-    //   background-color: #2b2929;
-    // }
-
-    // &__item:first-child:hover {
-    //   border-top-right-radius: 20px;
-    //   border-top-left-radius: 20px;
-    // }
-    
-    // &__item:last-child:hover {
-    //   border-bottom-right-radius: 20px;
-    //   border-bottom-left-radius: 20px;
-    // }
 
     &__data {
       display: inline-block;
