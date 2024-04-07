@@ -20,6 +20,10 @@
       display: flex;
       align-items: center;
       gap: 29px;
+
+      @media screen and (max-width: 800px) {
+        gap: 0;
+      }
     }
 
     &__input {
@@ -52,6 +56,10 @@
       padding: 23px 20px;
       border: 0;
       margin-left: 33px;
+
+      @media screen and (max-width: 800px) {
+        padding: 0;
+      }
 
       &:focus {
         outline: none;

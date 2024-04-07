@@ -13,6 +13,10 @@
       display: flex;
       flex-wrap: wrap;
       gap: 15px;
+
+      @media screen and (max-width: 666px) {
+        justify-content: center;
+      }
     }
 
     &__item {
@@ -34,7 +38,6 @@
 
     &__image {
       max-width: 80px;
-      // transform: rotate(45deg);
     }
 
     &__time {

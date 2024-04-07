@@ -5,6 +5,11 @@
   padding: 27px 24px;
   @extend %border-style;
 
+  @media screen and (max-width: 690px) {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
   &__imageContainer {
     pointer-events: none;
     background: url(../../images/sunny.svg) center no-repeat;
@@ -31,7 +36,7 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-family: 'Poppins', 'Arial', sans-serif;
-    font-size: clamp(0.9375rem, 0.2452rem + 3.6923vw, 3.9375rem);
+    font-size: clamp(3rem, 2.6875rem + 1.4286vw, 3.9375rem);
     font-style: normal;
     font-weight: 700;
     line-height: 77px;
