@@ -10,7 +10,6 @@ import { isEmptyObj } from '../../utils/isEmptyObj';
 import { fetchHourlyWeather } from '../../store/weatherReducer';
 import { fetchDaysWeather } from '../../store/weatherReducer';
 import { fetchCurrentWeather } from '../../store/weatherReducer';
-import AttentionPopup from '../AttentionPopup/AttentionPopup';
 
 function App() {
   const dispatch = useDispatch();
@@ -26,11 +25,6 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if(!isEmptyObj(currentWeather) && !isEmptyObj(daysWeather) && !isEmptyObj(hourlyWeather))
-      setIsLoading(true)
-  }, [currentWeather, daysWeather, hourlyWeather])
-
-  useEffect(() => {
     dispatch(fetchCurrentWeather({latitude, longitude}))
   }, [latitude, longitude, dispatch, hour])
 
@@ -42,6 +36,11 @@ function App() {
     dispatch(fetchHourlyWeather({latitude, longitude, timeZone}))
   }, [latitude, longitude, timeZone, dispatch, hour])
 
+  useEffect(() => {
+    if(!isEmptyObj(currentWeather) && !isEmptyObj(daysWeather) && !isEmptyObj(hourlyWeather))
+      setIsLoading(true)
+  }, [currentWeather, daysWeather, hourlyWeather])
+
   return (
     <div className={`${styles.app} theme${theme}`}>
       <div className={styles.app__container}>
@@ -49,7 +48,6 @@ function App() {
         {
           isLoading ?  <Main setIsLoading={setIsLoading}/> : <Preloader />
         }
-        {/* <AttentionPopup /> */}
       </div>
     </div>
 );

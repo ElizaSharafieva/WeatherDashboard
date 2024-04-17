@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './styles.module.scss';
@@ -8,7 +8,6 @@ function SearchForm(props) {
   
   const [value, setValue] = useState('');
   const [cities, setСities] = useState([]);
-  const searchBox = useRef();
   const [cursor, setCursor] = useState(0);
   const [placeholder, setPlaceholder] =  useState('Search for your preffered city...');
 
@@ -47,7 +46,6 @@ function SearchForm(props) {
   }
 
   function handleAddCity() {
-    console.log(cities[cursor])
     dispatch(setCurrentCity(cities[cursor]))
     setValue('');
     setСities([]);
@@ -77,7 +75,6 @@ function SearchForm(props) {
           name="search-input"
           onChange={handleChangeValue}
           value={value}
-          ref = {searchBox}
           onKeyDown={onKeyDown}
         >
         </input>

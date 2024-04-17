@@ -6,7 +6,6 @@ import { useResize } from '../../hooks/useResize';
 function Button(props) {
 
   const windowWith = useResize();
-  console.log(windowWith)
 
   return (
     <button 

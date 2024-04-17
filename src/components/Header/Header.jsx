@@ -11,6 +11,7 @@ import { fetchGeocoder } from '../../store/cityReducer';
 import api from '../../utils/api';
 
 function Header() {
+
   const dispatch = useDispatch();
   const controllerRef = useRef();
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -27,7 +28,10 @@ function Header() {
     const signal = controllerRef.current.signal;
 
     try {
-      const response = await api.post(`https://nodejs-serverless-function-express-six-indol.vercel.app/search?name=${city}&count=${count}`, {city, count}, signal)
+      const response = await api.post(
+        `https://nodejs-serverless-function-express-six-indol.vercel.app/search?name=${city}&count=${count}`,
+        // `http://localhost:3000/search?name=${city}&count=${count}`,
+         {city, count}, signal)
       const cities = await response.results;
       return cities
     } catch(err) {

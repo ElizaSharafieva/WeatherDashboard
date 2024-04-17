@@ -36,8 +36,7 @@ function DaysForecast() {
       <h3 className={styles.daysForecast__title}>5 Days Forecast:</h3>
       <ul>
         {  
-          weatherData.map((item, index) => {
-            console.log(new Date(item.time).toDateString().slice(0,3))
+          weatherData.map((item, index) => { 
             if (index < 5)
   
             {return (
